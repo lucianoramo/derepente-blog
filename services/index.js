@@ -145,3 +145,52 @@ export const getSimilarPosts = async (categories, id) => {
   
     return result.posts.nodes;
   };
+
+  export const getComments = async (slug) => {
+        const query = gql`
+        query getComments  {
+                post(id: "${slug}", idType: SLUG) {
+                        comments(where: {parent: null}) {
+                          nodes {
+                            author {
+                              node {
+                                ... on CommentAuthor {
+                                  id
+                                  name
+                                }
+                                ... on User {
+                                  id
+                                  name
+                                }
+                              }
+                            }
+                            date
+                            replies {
+                              nodes {
+                                content
+                                author {
+                                  node {
+                                    ... on User {
+                                      id
+                                      name
+                                    }
+                                    ... on CommentAuthor {
+                                      id
+                                      name
+                                    }
+                                  }
+                                }
+                                date
+                              }
+                            }
+                            content
+                          }
+                        }
+                      }
+              }
+            `;
+    
+        const response = await request(graphqlAPI, query, { slug });
+        
+        return response.post.comments.nodes;
+    }
