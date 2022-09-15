@@ -43,7 +43,7 @@ export const getCategories = async () => {
     const query = gql`
           query GetGategories {
             
-              categories {
+              categories (where: {hideEmpty: true, exclude: 2}){
                         nodes {
                                 id: databaseId
                                 name
@@ -150,7 +150,7 @@ export const getSimilarPosts = async (categories, id) => {
         const query = gql`
         query getComments  {
                 post(id: "${slug}", idType: SLUG) {
-                        comments(where: {parent: null}) {
+                        comments(where: {parent: null} last:100) {
                           nodes {
                             author {
                               node {
@@ -194,3 +194,40 @@ export const getSimilarPosts = async (categories, id) => {
         
         return response.post.comments.nodes;
     }
+
+    export const getCategoryPost = async (slug) => {
+        const query = gql`
+            query getCategoryPosts {
+                    posts(where: {categoryName: "${slug}", orderby: {field: DATE, order: ASC}}) {
+                      nodes {
+                        author {
+                            node {
+                                    name
+                            }
+                        }
+                        categories {
+                          nodes {
+                            name
+                            slug
+                          }
+                        }
+                        content
+                        date
+                        featuredImage {
+                          node {
+                            sourceUrl
+                          }
+                        }
+                        excerpt
+                        slug
+                        title
+                      }
+                    }
+                  }
+            
+            `;
+    
+        const response = await request(graphqlAPI, query, { slug });
+        return response.posts;
+    }
+    

@@ -62,7 +62,7 @@ const PostDetail = ({ post }) => {
 						{post.title}
 					</h1>
 					<p
-						className="text-justify text-xs lg:text-lg text-gray-700 mb-2 mt-4 lg:mb-8 lg:mt-4"
+						className="text-justify text-sm lg:text-lg text-gray-700 mb-2 mt-4 lg:mb-8 lg:mt-4"
 						dangerouslySetInnerHTML={{ __html: post.content }}
 					></p>
 				</div>

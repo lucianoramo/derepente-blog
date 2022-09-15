@@ -16,9 +16,8 @@ const Header = () => {
 				setCategories(newCategories);
 			});
 		}
-	}, [categories]);
+	}, []);
 
-	console.log("Header => categories", categories);
 
 	return (
 		<div className="container mx-auto px-4 lg:px-10 mb-8">
