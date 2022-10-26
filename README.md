@@ -1,1 +1,1 @@
-# Next.js + Tailwind CSS Blog
+# Derepente Autista Blog
